@@ -29,6 +29,7 @@ pub trait AdventTask<T: Display> {
         let second_result = self.solve_second_part(&input);
         println!("=========================================================================================");
         println!("{task_name}");
+        println!("=========================================================================================");
         println!("First result is - {}", first_result);
         println!("Second result is - {}", second_result);
         println!("=========================================================================================");

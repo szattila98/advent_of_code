@@ -6,7 +6,7 @@ pub struct DummyTask;
 
 impl AdventTask<String> for DummyTask {
     fn read_input(&self) -> Vec<String> {
-        vec!["Hello".to_string(), "Advent".to_string()]
+        vec!["Hello".to_string(), "Advent!".to_string()]
     }
 
     fn get_task_name(&self) -> String {

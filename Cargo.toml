@@ -6,3 +6,7 @@ edition = "2021"
 [dependencies]
 neofiglet = "0.1.1"
 text_io = "0.1.12"
+
+[profile.release]
+lto = true
+codegen-units = 1
