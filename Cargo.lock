@@ -5,3 +5,19 @@ version = 3
 [[package]]
 name = "advent_of_code_2022"
 version = "0.1.0"
+dependencies = [
+ "neofiglet",
+ "text_io",
+]
+
+[[package]]
+name = "neofiglet"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0ad83e1c3cc692c78a3b39999c757f2e97de1a9cfef418a681f7965a12a6701a"
+
+[[package]]
+name = "text_io"
+version = "0.1.12"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d5f0c8eb2ad70c12a6a69508f499b3051c924f4b1cfeae85bfad96e6bc5bba46"
