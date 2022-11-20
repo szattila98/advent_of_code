@@ -10,7 +10,7 @@ fn main() {
     let day = try_read!().expect("I can't understand you, you had one too many eggnogs friend!");
     match day {
         0 => print_solution(DummyTask {}),
-        _ => println!("No such day, but happy holidays nonetheless!"),
+        _ => panic!("No such day, but happy holidays nonetheless!"),
     };
 }
 
