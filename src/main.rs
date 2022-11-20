@@ -16,7 +16,7 @@ fn main() {
 
 fn print_solution<R: Display, T: AdventTask<R>>(task: T) {
     let font = neofiglet::FIGfont::standard().unwrap();
-    let task_name = font.convert(&task.get_task_name()).unwrap();
+    let task_name = font.convert(task.get_task_name()).unwrap();
     let (first_result, second_result) = task.solve();
     println!("================================================================================");
     println!("{task_name}");
