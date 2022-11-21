@@ -15,15 +15,15 @@ impl AdventTask<String> for DummyTask {
         input
             .first()
             .expect("WHO INPUTTED THIS WRONG INPUT!")
-            .unwrap()
+            .expect("STOP IT!")
             .to_string()
     }
 
     fn solve_second_part(&self, input: &[Option<&str>]) -> String {
         input
             .last()
+            .expect("STAAAAAAHP!")
             .expect("STRAIGHT TO JAIL, STRAIGHT AWAY!")
-            .unwrap()
             .to_string()
     }
 }

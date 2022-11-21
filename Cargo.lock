@@ -7,6 +7,7 @@ name = "advent_of_code_2022"
 version = "0.1.0"
 dependencies = [
  "criterion",
+ "macros",
  "neofiglet",
  "text_io",
 ]
@@ -265,6 +266,13 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "abb12e687cfb44aa40f41fc3978ef76448f9b6038cad6aef4259d3c095a2382e"
 dependencies = [
  "cfg-if",
+]
+
+[[package]]
+name = "macros"
+version = "0.1.0"
+dependencies = [
+ "syn",
 ]
 
 [[package]]
