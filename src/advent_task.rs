@@ -7,8 +7,8 @@ pub mod dummy_task;
 pub trait AdventTask<T: Display> {
     fn get_task_name(&self) -> &str;
     fn get_inputs(&self) -> &str;
-    fn solve_first_part(&self, input: &[Option<&str>]) -> T;
-    fn solve_second_part(&self, input: &[Option<&str>]) -> T;
+    fn solve_first_part(&self, input: &[Option<&'static str>]) -> T;
+    fn solve_second_part(&self, input: &[Option<&'static str>]) -> T;
 
     fn solve(&self) -> (T, T) {
         let input_arr = include_str_arr!("./inputs/dummy_input.txt");
