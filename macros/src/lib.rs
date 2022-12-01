@@ -22,6 +22,6 @@ pub fn include_str_arr(input: TokenStream) -> TokenStream {
             }
         })
         .collect::<Vec<_>>();
-    let arr_str = format!("[{}]", lines.join(", "));
+    let arr_str = format!("&[{}]", lines.join(", "));
     arr_str.parse().expect("could not parse token stream")
 }

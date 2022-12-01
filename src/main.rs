@@ -2,7 +2,9 @@ use std::fmt::Display;
 
 use text_io::try_read;
 
-use advent_of_code_2022::advent_task::{dummy_task::DummyTask, AdventTask};
+use advent_of_code_2022::advent_task::{
+    dummy_task::DummyTask, elven_calories::ElvenCalories, AdventTask,
+};
 
 fn main() {
     println!("Hello, Advent of Code!");
@@ -10,6 +12,7 @@ fn main() {
     let day = try_read!().expect("I can't understand you, you had one too many eggnogs friend!");
     match day {
         0 => print_solution(DummyTask {}),
+        1 => print_solution(ElvenCalories {}),
         _ => panic!("No such day, but happy holidays nonetheless!"),
     };
 }
@@ -21,7 +24,7 @@ fn print_solution<R: Display, T: AdventTask<R>>(task: T) {
     println!("================================================================================");
     println!("{task_name}");
     println!("================================================================================");
-    println!("First result is - {}", first_result);
-    println!("Second result is - {}", second_result);
+    println!("First solution - {}", first_result);
+    println!("Second solution - {}", second_result);
     println!("================================================================================");
 }
