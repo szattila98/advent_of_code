@@ -2,6 +2,7 @@ use std::fmt::Display;
 
 pub mod dummy_task;
 pub mod elven_calories;
+pub mod elven_tournament;
 
 pub trait AdventTask<T: Display> {
     fn get_task_name(&self) -> &str;
@@ -11,8 +12,8 @@ pub trait AdventTask<T: Display> {
 
     fn solve(&self) -> (T, T) {
         let input_arr = self.get_inputs();
-        let first_result = self.solve_first_part(&input_arr);
-        let second_result = self.solve_second_part(&input_arr);
+        let first_result = self.solve_first_part(input_arr);
+        let second_result = self.solve_second_part(input_arr);
         (first_result, second_result)
     }
 }
