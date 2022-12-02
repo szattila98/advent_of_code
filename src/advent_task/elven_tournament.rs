@@ -22,8 +22,7 @@ impl AdventTask<u32> for ElvenTournament {
 
     fn solve_first_part(&self, input: &[Option<&'static str>]) -> u32 {
         let mut score = 0;
-        let matches = input.iter().flatten().collect::<Vec<_>>();
-        for m in matches {
+        for m in input.iter().flatten() {
             match *m {
                 "A X" => score += ROCK + DRAW,
                 "A Y" => score += PAPER + WIN,
@@ -42,8 +41,7 @@ impl AdventTask<u32> for ElvenTournament {
 
     fn solve_second_part(&self, input: &[Option<&'static str>]) -> u32 {
         let mut score = 0;
-        let matches = input.iter().flatten().collect::<Vec<_>>();
-        for m in matches {
+        for m in input.iter().flatten() {
             match *m {
                 "A X" => score += SCISSORS + LOSS,
                 "A Y" => score += ROCK + DRAW,
