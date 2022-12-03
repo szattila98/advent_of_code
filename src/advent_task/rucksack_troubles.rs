@@ -18,7 +18,7 @@ impl AdventTask<u32> for RucksackTroubles {
 
     fn solve_first_part(&self, input: &[Option<&'static str>]) -> u32 {
         let mut priorities = 0;
-        input.iter().flatten().for_each(|input| {
+        for input in input.iter().flatten() {
             let half_len = input.len() / 2;
             let first_compartment = &input[..half_len];
             let second_compartment = &input[half_len..];
@@ -28,7 +28,7 @@ impl AdventTask<u32> for RucksackTroubles {
                     break;
                 }
             }
-        });
+        }
         priorities
     }
 
