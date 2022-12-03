@@ -3,6 +3,7 @@ use std::fmt::Display;
 pub mod dummy_task;
 pub mod elven_calories;
 pub mod elven_tournament;
+pub mod rucksack_troubles;
 
 pub trait AdventTask<T: Display> {
     fn get_task_name(&self) -> &str;

@@ -4,7 +4,7 @@ use text_io::try_read;
 
 use advent_of_code_2022::advent_task::{
     dummy_task::DummyTask, elven_calories::ElvenCalories, elven_tournament::ElvenTournament,
-    AdventTask,
+    rucksack_troubles::RucksackTroubles, AdventTask,
 };
 
 fn main() {
@@ -15,6 +15,7 @@ fn main() {
         0 => print_solution(DummyTask),
         1 => print_solution(ElvenCalories),
         2 => print_solution(ElvenTournament),
+        3 => print_solution(RucksackTroubles),
         _ => panic!("No such day, but happy holidays nonetheless!"),
     };
 }
