@@ -4,8 +4,10 @@ use super::AdventTask;
 
 pub struct DummyTask;
 
-impl AdventTask<&'static str> for DummyTask {
-    fn get_task_name(&self) -> &str {
+impl AdventTask for DummyTask {
+    type Solution = &'static str;
+
+    fn get_name(&self) -> &str {
         "Dummy Task"
     }
 
@@ -13,14 +15,14 @@ impl AdventTask<&'static str> for DummyTask {
         include_str_arr!("./inputs/dummy_input.txt")
     }
 
-    fn solve_first_part(&self, input: &[Option<&'static str>]) -> &'static str {
+    fn solve_first_part(&self, input: &[Option<&'static str>]) -> Self::Solution {
         input
             .first()
             .expect("WHO INPUTTED THIS WRONG INPUT!")
             .expect("STOP IT!")
     }
 
-    fn solve_second_part(&self, input: &[Option<&'static str>]) -> &'static str {
+    fn solve_second_part(&self, input: &[Option<&'static str>]) -> Self::Solution {
         input
             .last()
             .expect("STAAAAAAHP!")

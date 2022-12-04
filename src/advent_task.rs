@@ -6,13 +6,15 @@ pub mod elven_calories;
 pub mod elven_tournament;
 pub mod rucksack_troubles;
 
-pub trait AdventTask<T: Display> {
-    fn get_task_name(&self) -> &str;
-    fn get_inputs(&self) -> &[Option<&'static str>];
-    fn solve_first_part(&self, input: &[Option<&'static str>]) -> T;
-    fn solve_second_part(&self, input: &[Option<&'static str>]) -> T;
+pub trait AdventTask {
+    type Solution: Display;
 
-    fn solve(&self) -> (T, T) {
+    fn get_name(&self) -> &str;
+    fn get_inputs(&self) -> &[Option<&'static str>];
+    fn solve_first_part(&self, input: &[Option<&'static str>]) -> Self::Solution;
+    fn solve_second_part(&self, input: &[Option<&'static str>]) -> Self::Solution;
+
+    fn solve(&self) -> (Self::Solution, Self::Solution) {
         let input_arr = self.get_inputs();
         let first_result = self.solve_first_part(input_arr);
         let second_result = self.solve_second_part(input_arr);

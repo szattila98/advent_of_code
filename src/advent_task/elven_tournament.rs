@@ -2,17 +2,21 @@ use macros::include_str_arr;
 
 use super::AdventTask;
 
-const WIN: u32 = 6;
-const DRAW: u32 = 3;
-const LOSS: u32 = 0;
-const ROCK: u32 = 1;
-const PAPER: u32 = 2;
-const SCISSORS: u32 = 3;
+type SolutionType = u16;
+
+const WIN: SolutionType = 6;
+const DRAW: SolutionType = 3;
+const LOSS: SolutionType = 0;
+const ROCK: SolutionType = 1;
+const PAPER: SolutionType = 2;
+const SCISSORS: SolutionType = 3;
 
 pub struct ElvenTournament;
 
-impl AdventTask<u32> for ElvenTournament {
-    fn get_task_name(&self) -> &str {
+impl AdventTask for ElvenTournament {
+    type Solution = SolutionType;
+
+    fn get_name(&self) -> &str {
         "Elven Tournament"
     }
 
@@ -20,7 +24,7 @@ impl AdventTask<u32> for ElvenTournament {
         include_str_arr!("./inputs/elven_tournament.txt")
     }
 
-    fn solve_first_part(&self, input: &[Option<&'static str>]) -> u32 {
+    fn solve_first_part(&self, input: &[Option<&'static str>]) -> Self::Solution {
         let mut score = 0;
         for m in input.iter().flatten() {
             match *m {
@@ -39,7 +43,7 @@ impl AdventTask<u32> for ElvenTournament {
         score
     }
 
-    fn solve_second_part(&self, input: &[Option<&'static str>]) -> u32 {
+    fn solve_second_part(&self, input: &[Option<&'static str>]) -> Self::Solution {
         let mut score = 0;
         for m in input.iter().flatten() {
             match *m {

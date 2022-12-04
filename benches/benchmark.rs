@@ -5,18 +5,25 @@ use advent_of_code_2022::advent_task::{
 use criterion::{criterion_group, criterion_main, Criterion};
 
 fn criterion_benchmark(c: &mut Criterion) {
-    c.bench_function(DummyTask.get_task_name(), |b| b.iter(|| DummyTask.solve()));
-    c.bench_function(ElvenCalories.get_task_name(), |b| {
-        b.iter(|| ElvenCalories.solve())
+    let task = DummyTask;
+    c.bench_function(task.get_name(), |b| {
+        b.iter(|| assert_eq!(task.solve(), ("Hello", "Advent!")))
     });
-    c.bench_function(ElvenTournament.get_task_name(), |b| {
-        b.iter(|| ElvenTournament.solve())
+    let task = ElvenCalories;
+    c.bench_function(task.get_name(), |b| {
+        b.iter(|| assert_eq!(task.solve(), (67016, 200116)))
     });
-    c.bench_function(RucksackTroubles.get_task_name(), |b| {
-        b.iter(|| RucksackTroubles.solve())
+    let task = ElvenTournament;
+    c.bench_function(task.get_name(), |b| {
+        b.iter(|| assert_eq!(task.solve(), (13809, 12316)))
     });
-    c.bench_function(CampCleaning.get_task_name(), |b| {
-        b.iter(|| CampCleaning.solve())
+    let task = RucksackTroubles;
+    c.bench_function(task.get_name(), |b| {
+        b.iter(|| assert_eq!(task.solve(), (8252, 2828)))
+    });
+    let task = CampCleaning;
+    c.bench_function(task.get_name(), |b| {
+        b.iter(|| assert_eq!(task.solve(), (459, 779)))
     });
 }
 

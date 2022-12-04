@@ -4,8 +4,10 @@ use super::AdventTask;
 
 pub struct CampCleaning;
 
-impl AdventTask<u16> for CampCleaning {
-    fn get_task_name(&self) -> &str {
+impl AdventTask for CampCleaning {
+    type Solution = u16;
+
+    fn get_name(&self) -> &str {
         "Camp Cleaning"
     }
 
@@ -13,10 +15,10 @@ impl AdventTask<u16> for CampCleaning {
         include_str_arr!("./inputs/camp_cleaning.txt")
     }
 
-    fn solve_first_part(&self, input: &[Option<&'static str>]) -> u16 {
+    fn solve_first_part(&self, input: &[Option<&'static str>]) -> Self::Solution {
         let mut overlaps = 0;
         for pair in input.iter().flatten() {
-            let (x1, x2, y1, y2) = parse_assignment_pair(pair);
+            let (x1, x2, y1, y2) = Self::parse_assignment_pair(pair);
             if (x1 <= y1 && x2 >= y2) || (y1 <= x1 && y2 >= x2) {
                 overlaps += 1;
             }
@@ -24,10 +26,10 @@ impl AdventTask<u16> for CampCleaning {
         overlaps
     }
 
-    fn solve_second_part(&self, input: &[Option<&'static str>]) -> u16 {
+    fn solve_second_part(&self, input: &[Option<&'static str>]) -> Self::Solution {
         let mut overlaps = 0;
         for pair in input.iter().flatten() {
-            let (x1, x2, y1, y2) = parse_assignment_pair(pair);
+            let (x1, x2, y1, y2) = Self::parse_assignment_pair(pair);
             if x1 <= y2 && y1 <= x2 {
                 overlaps += 1;
             }
@@ -36,17 +38,26 @@ impl AdventTask<u16> for CampCleaning {
     }
 }
 
-fn parse_assignment_pair(pair: &'static str) -> (u16, u16, u16, u16) {
-    let mut splitted = pair.split(',');
-    let first = splitted.next().unwrap();
-    let second = splitted.next().unwrap();
+impl CampCleaning {
+    fn parse_assignment_pair(
+        pair: &'static str,
+    ) -> (
+        <CampCleaning as AdventTask>::Solution,
+        <CampCleaning as AdventTask>::Solution,
+        <CampCleaning as AdventTask>::Solution,
+        <CampCleaning as AdventTask>::Solution,
+    ) {
+        let mut splitted = pair.split(',');
+        let first = splitted.next().unwrap();
+        let second = splitted.next().unwrap();
 
-    let mut splitted_first = first.split('-');
-    let mut splitted_second = second.split('-');
-    let x1 = splitted_first.next().unwrap().parse().unwrap();
-    let x2 = splitted_first.next().unwrap().parse().unwrap();
-    let y1 = splitted_second.next().unwrap().parse().unwrap();
-    let y2 = splitted_second.next().unwrap().parse().unwrap();
+        let mut splitted_first = first.split('-');
+        let mut splitted_second = second.split('-');
+        let x1 = splitted_first.next().unwrap().parse().unwrap();
+        let x2 = splitted_first.next().unwrap().parse().unwrap();
+        let y1 = splitted_second.next().unwrap().parse().unwrap();
+        let y2 = splitted_second.next().unwrap().parse().unwrap();
 
-    (x1, x2, y1, y2)
+        (x1, x2, y1, y2)
+    }
 }

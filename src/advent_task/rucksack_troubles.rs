@@ -2,13 +2,17 @@ use macros::include_str_arr;
 
 use super::AdventTask;
 
-const LOWERCASE_OFFSET: u32 = 96;
-const UPPERCASE_OFFSET: u32 = 38;
+type SolutionType = u16;
+
+const LOWERCASE_OFFSET: SolutionType = 96;
+const UPPERCASE_OFFSET: SolutionType = 38;
 
 pub struct RucksackTroubles;
 
-impl AdventTask<u32> for RucksackTroubles {
-    fn get_task_name(&self) -> &str {
+impl AdventTask for RucksackTroubles {
+    type Solution = SolutionType;
+
+    fn get_name(&self) -> &str {
         "Rucksack Troubles"
     }
 
@@ -16,7 +20,7 @@ impl AdventTask<u32> for RucksackTroubles {
         include_str_arr!("./inputs/rucksack_troubles.txt")
     }
 
-    fn solve_first_part(&self, input: &[Option<&'static str>]) -> u32 {
+    fn solve_first_part(&self, input: &[Option<&'static str>]) -> Self::Solution {
         let mut priorities = 0;
         for input in input.iter().flatten() {
             let half_len = input.len() / 2;
@@ -24,7 +28,7 @@ impl AdventTask<u32> for RucksackTroubles {
             let second_compartment = &input[half_len..];
             for item in first_compartment.chars() {
                 if second_compartment.contains(item) {
-                    priorities += calculate_priority(item);
+                    priorities += Self::calculate_priority(item);
                     break;
                 }
             }
@@ -32,7 +36,7 @@ impl AdventTask<u32> for RucksackTroubles {
         priorities
     }
 
-    fn solve_second_part(&self, input: &[Option<&'static str>]) -> u32 {
+    fn solve_second_part(&self, input: &[Option<&'static str>]) -> Self::Solution {
         let group_count = input.len() / 3;
         let mut priorities = 0;
         for i in 0..group_count {
@@ -41,7 +45,7 @@ impl AdventTask<u32> for RucksackTroubles {
             let third_rucksack = input[i * 3 + 2].expect("gib rucksack");
             for item in first_rucksack.chars() {
                 if second_rucksack.contains(item) && third_rucksack.contains(item) {
-                    priorities += calculate_priority(item);
+                    priorities += Self::calculate_priority(item);
                     break;
                 }
             }
@@ -50,10 +54,12 @@ impl AdventTask<u32> for RucksackTroubles {
     }
 }
 
-fn calculate_priority(item: char) -> u32 {
-    if item.is_lowercase() {
-        item as u32 - LOWERCASE_OFFSET
-    } else {
-        item as u32 - UPPERCASE_OFFSET
+impl RucksackTroubles {
+    fn calculate_priority(item: char) -> <RucksackTroubles as AdventTask>::Solution {
+        if item.is_lowercase() {
+            item as SolutionType - LOWERCASE_OFFSET
+        } else {
+            item as SolutionType - UPPERCASE_OFFSET
+        }
     }
 }
