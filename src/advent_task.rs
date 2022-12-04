@@ -1,5 +1,6 @@
 use std::fmt::Display;
 
+pub mod camp_cleaning;
 pub mod dummy_task;
 pub mod elven_calories;
 pub mod elven_tournament;

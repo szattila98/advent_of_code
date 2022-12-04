@@ -3,8 +3,8 @@ use std::fmt::Display;
 use text_io::try_read;
 
 use advent_of_code_2022::advent_task::{
-    dummy_task::DummyTask, elven_calories::ElvenCalories, elven_tournament::ElvenTournament,
-    rucksack_troubles::RucksackTroubles, AdventTask,
+    camp_cleaning::CampCleaning, dummy_task::DummyTask, elven_calories::ElvenCalories,
+    elven_tournament::ElvenTournament, rucksack_troubles::RucksackTroubles, AdventTask,
 };
 
 fn main() {
@@ -16,6 +16,7 @@ fn main() {
         1 => print_solution(ElvenCalories),
         2 => print_solution(ElvenTournament),
         3 => print_solution(RucksackTroubles),
+        4 => print_solution(CampCleaning),
         _ => panic!("No such day, but happy holidays nonetheless!"),
     };
 }
