@@ -3,17 +3,15 @@ use std::fmt::Display;
 use text_io::try_read;
 
 use advent_of_code_2022::advent_task::{
-    camp_cleaning::CampCleaning, dummy_task::DummyTask, elven_calories::ElvenCalories,
-    elven_tournament::ElvenTournament, rucksack_troubles::RucksackTroubles,
-    supply_stacks::SupplyStacks, AdventTask,
+    camp_cleaning::CampCleaning, elven_calories::ElvenCalories, elven_tournament::ElvenTournament,
+    rucksack_troubles::RucksackTroubles, supply_stacks::SupplyStacks, AdventTask,
 };
 
 fn main() {
     println!("Hello, Advent of Code!");
-    println!("Choose, which days code you want to run! (0-24)");
+    println!("Choose, which days code you want to run! (1-24)");
     let day = try_read!().expect("I can't understand you, you had one too many eggnogs friend!");
     match day {
-        0 => print_solution(DummyTask),
         1 => print_solution(ElvenCalories),
         2 => print_solution(ElvenTournament),
         3 => print_solution(RucksackTroubles),

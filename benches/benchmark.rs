@@ -1,15 +1,10 @@
 use advent_of_code_2022::advent_task::{
-    camp_cleaning::CampCleaning, dummy_task::DummyTask, elven_calories::ElvenCalories,
-    elven_tournament::ElvenTournament, rucksack_troubles::RucksackTroubles,
-    supply_stacks::SupplyStacks, AdventTask,
+    camp_cleaning::CampCleaning, elven_calories::ElvenCalories, elven_tournament::ElvenTournament,
+    rucksack_troubles::RucksackTroubles, supply_stacks::SupplyStacks, AdventTask,
 };
 use criterion::{criterion_group, criterion_main, Criterion};
 
 fn criterion_benchmark(c: &mut Criterion) {
-    let task = DummyTask;
-    c.bench_function(task.get_name(), |b| {
-        b.iter(|| assert_eq!(task.solve(), ("Hello", "Advent!")))
-    });
     let task = ElvenCalories;
     c.bench_function(task.get_name(), |b| {
         b.iter(|| assert_eq!(task.solve(), (67016, 200116)))
