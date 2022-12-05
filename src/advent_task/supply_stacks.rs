@@ -18,40 +18,29 @@ impl AdventTask for SupplyStacks {
     fn solve_first_part(&self, input: &[Option<&'static str>]) -> Self::Solution {
         let (mut stacks, moves) = parse_input(input);
         for m in moves {
-            let mut to_be_moved = vec![];
             for _ in 0..m.count {
-                let stack = &mut stacks[m.from - 1];
-                to_be_moved.push(stack.pop().unwrap());
-            }
-            for i in to_be_moved {
-                stacks[m.to - 1].push(i)
+                let source = &mut stacks[m.from - 1];
+                let supply_chest = source.pop().unwrap();
+                let destination = &mut stacks[m.to - 1];
+                destination.push(supply_chest);
             }
         }
-        let mut result = String::from("");
-        stacks
-            .iter()
-            .for_each(|stack| result = format!("{result}{}", stack.last().unwrap()));
-        result
+        stacks.iter().map(|stack| stack.last().unwrap()).collect()
     }
 
     fn solve_second_part(&self, input: &[Option<&'static str>]) -> Self::Solution {
         let (mut stacks, moves) = parse_input(input);
         for m in moves {
-            let mut to_be_moved = vec![];
-            for _ in 0..m.count {
-                let stack = &mut stacks[m.from - 1];
-                to_be_moved.push(stack.pop().unwrap());
-            }
-            to_be_moved.reverse();
-            for i in to_be_moved {
-                stacks[m.to - 1].push(i)
+            for i in (0..m.count).rev() {
+                let source = &mut stacks[m.from - 1];
+                let index = source.len() - i - 1;
+                let supplies = source[index];
+                source.remove(index);
+                let destination = &mut stacks[m.to - 1];
+                destination.push(supplies);
             }
         }
-        let mut result = String::from("");
-        stacks
-            .iter()
-            .for_each(|stack| result = format!("{result}{}", stack.last().unwrap()));
-        result
+        stacks.iter().map(|stack| stack.last().unwrap()).collect()
     }
 }
 
@@ -63,23 +52,28 @@ fn parse_input(input: &[Option<&str>]) -> (Vec<Vec<char>>, Vec<Move>) {
 }
 
 fn parse_stacks(input: &[Option<&str>], divider_index: usize) -> Vec<Vec<char>> {
-    let mut stacks = vec![];
     input[divider_index - 1]
         .unwrap()
         .trim()
         .split("   ")
-        .enumerate()
-        .for_each(|(i, _)| {
-            let mut contents = vec![];
-            for j in (0..divider_index - 1).rev() {
-                let content = input[j].unwrap().chars().nth(1 + i * 4).unwrap();
-                if content != ' ' {
-                    contents.push(content)
-                }
-            }
-            stacks.push(contents);
-        });
-    stacks
+        .map(|s| {
+            (0..divider_index - 1)
+                .rev()
+                .filter_map(|j| {
+                    let content = input[j]
+                        .unwrap()
+                        .chars()
+                        .nth(1 + (s.parse::<usize>().unwrap() - 1) * 4)
+                        .unwrap();
+                    if content != ' ' {
+                        Some(content)
+                    } else {
+                        None
+                    }
+                })
+                .collect()
+        })
+        .collect()
 }
 
 #[derive(Debug)]
