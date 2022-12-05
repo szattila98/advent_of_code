@@ -28,7 +28,12 @@ fn criterion_benchmark(c: &mut Criterion) {
     });
     let task = SupplyStacks;
     c.bench_function(task.get_name(), |b| {
-        b.iter(|| assert_eq!(task.solve(), (459, 779)))
+        b.iter(|| {
+            assert_eq!(
+                task.solve(),
+                ("WHTLRMZRC".to_string(), "GMPMLWNMG".to_string())
+            )
+        })
     });
 }
 
