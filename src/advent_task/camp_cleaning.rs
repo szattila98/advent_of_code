@@ -47,17 +47,13 @@ impl CampCleaning {
         <CampCleaning as AdventTask>::Solution,
         <CampCleaning as AdventTask>::Solution,
     ) {
-        let mut splitted = pair.split(',');
-        let first = splitted.next().unwrap();
-        let second = splitted.next().unwrap();
-
-        let mut splitted_first = first.split('-');
-        let mut splitted_second = second.split('-');
-        let x1 = splitted_first.next().unwrap().parse().unwrap();
-        let x2 = splitted_first.next().unwrap().parse().unwrap();
-        let y1 = splitted_second.next().unwrap().parse().unwrap();
-        let y2 = splitted_second.next().unwrap().parse().unwrap();
-
+        let (x, y) = pair.split_once(',').unwrap();
+        let (x1, x2) = x.split_once('-').unwrap();
+        let (y1, y2) = y.split_once('-').unwrap();
+        let x1 = x1.parse().unwrap();
+        let x2 = x2.parse().unwrap();
+        let y1 = y1.parse().unwrap();
+        let y2 = y2.parse().unwrap();
         (x1, x2, y1, y2)
     }
 }
