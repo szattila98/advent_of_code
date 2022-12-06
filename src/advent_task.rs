@@ -5,6 +5,7 @@ pub mod elven_calories;
 pub mod elven_tournament;
 pub mod rucksack_troubles;
 pub mod supply_stacks;
+pub mod tuning_trouble;
 
 pub trait AdventTask {
     type Solution: Display;
