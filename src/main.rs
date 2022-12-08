@@ -3,9 +3,9 @@ use std::fmt::Display;
 use text_io::try_read;
 
 use advent_of_code_2022::advent_task::{
-    camp_cleaning::CampCleaning, elven_calories::ElvenCalories, elven_tournament::ElvenTournament,
-    rucksack_troubles::RucksackTroubles, supply_stacks::SupplyStacks,
-    tuning_trouble::TuningTrouble, AdventTask,
+    camp_cleaning::CampCleaning, device_cleanup::DeviceCleanup, elven_calories::ElvenCalories,
+    elven_tournament::ElvenTournament, rucksack_troubles::RucksackTroubles,
+    supply_stacks::SupplyStacks, tuning_trouble::TuningTrouble, AdventTask,
 };
 
 fn main() {
@@ -19,6 +19,7 @@ fn main() {
         4 => print_solution(CampCleaning),
         5 => print_solution(SupplyStacks),
         6 => print_solution(TuningTrouble),
+        7 => print_solution(DeviceCleanup),
         _ => panic!("No such day, but happy holidays nonetheless!"),
     };
 }

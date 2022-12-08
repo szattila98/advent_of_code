@@ -1,6 +1,7 @@
 use std::fmt::Display;
 
 pub mod camp_cleaning;
+pub mod device_cleanup;
 pub mod elven_calories;
 pub mod elven_tournament;
 pub mod rucksack_troubles;
