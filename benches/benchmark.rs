@@ -37,7 +37,7 @@ fn criterion_benchmark(c: &mut Criterion) {
     });
     let task = DeviceCleanup;
     c.bench_function(task.get_name(), |b| {
-        b.iter(|| assert_eq!(task.solve(), (1909, 2)))
+        b.iter(|| assert_eq!(task.solve(), (1428881, 1052)))
     });
 }
 
