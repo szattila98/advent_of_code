@@ -81,14 +81,22 @@ impl AdventTask for DeviceCleanup {
                 }
             }
         }
+
         let mut sizes = vec![];
         root.borrow().find_all_sizes(&mut sizes);
-        let mut dir_sizes = vec![];
-        sizes.iter().for_each(|size| match size {
-            Sizes::DirSize(s) => dir_sizes.push(*s),
-            _ => (),
-        });
-        dir_sizes.iter().filter(|size| **size <= 100000).sum()
+        sizes
+            .iter()
+            .filter_map(|size| match size {
+                Sizes::DirSize(size) => {
+                    if *size <= 100000 {
+                        Some(size)
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            })
+            .sum()
     }
 
     fn solve_second_part(&self, input: &[Option<&'static str>]) -> Self::Solution {
@@ -143,19 +151,23 @@ impl AdventTask for DeviceCleanup {
                 }
             }
         }
+
         let total_size = root.borrow().get_size().unwrap();
         let unused_space = FILESYSTEM_SIZE - total_size;
         let mut sizes = vec![];
         root.borrow().find_all_sizes(&mut sizes);
-        let mut dir_sizes = vec![];
-        sizes.iter().for_each(|size| match size {
-            Sizes::DirSize(s) => dir_sizes.push(*s),
-            _ => (),
-        });
         sizes
             .iter()
-            .map(|size| size.unwrap())
-            .filter(|size| unused_space + size >= NEEDED_SPACE)
+            .filter_map(|size| match size {
+                Sizes::DirSize(size) => {
+                    if unused_space + size >= NEEDED_SPACE {
+                        Some(*size)
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            })
             .min()
             .unwrap()
     }
