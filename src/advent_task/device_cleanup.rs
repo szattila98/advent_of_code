@@ -10,8 +10,12 @@ use super::AdventTask;
 
 type SizeType = usize;
 
+const FILESYSTEM_SIZE: SizeType = 70000000;
+const NEEDED_SPACE: SizeType = 30000000;
+
 // TODO optimization and simplification
-// TODO store first part tree in struct
+// TODO caching
+// TODO extract functions
 pub struct DeviceCleanup;
 
 impl AdventTask for DeviceCleanup {
@@ -88,7 +92,72 @@ impl AdventTask for DeviceCleanup {
     }
 
     fn solve_second_part(&self, input: &[Option<&'static str>]) -> Self::Solution {
-        input.len()
+        let root = Rc::new(RefCell::new(Dir {
+            name: "/",
+            parent: None,
+            children: vec![],
+        })) as Rc<RefCell<dyn Node>>;
+        let mut current_dir = root.clone();
+        for line in input.iter().flatten() {
+            match () {
+                _ if line.contains("$ ls") => continue,
+                _ if line.contains("$ cd") => {
+                    let to = line.split(' ').last().unwrap();
+                    match to {
+                        "/" => {
+                            current_dir = root.clone();
+                        }
+                        ".." => {
+                            let parent_dir =
+                                current_dir.borrow().get_parent().as_ref().unwrap().clone();
+                            current_dir = parent_dir.upgrade().unwrap();
+                        }
+                        _ => {
+                            let to = current_dir.borrow().find_child(to).unwrap().clone();
+                            current_dir = to;
+                        }
+                    }
+                }
+                _ => {
+                    let (first_part, name) = line.split_once(' ').unwrap();
+                    if first_part == "dir" {
+                        current_dir
+                            .borrow_mut()
+                            .get_children()
+                            .push(Rc::new(RefCell::new(Dir {
+                                name,
+                                parent: Some(Rc::downgrade(&current_dir)),
+                                children: vec![],
+                            })) as Rc<RefCell<dyn Node>>)
+                    } else {
+                        let size = first_part.parse().unwrap();
+                        current_dir
+                            .borrow_mut()
+                            .get_children()
+                            .push(Rc::new(RefCell::new(File {
+                                name,
+                                parent: Some(Rc::downgrade(&current_dir)),
+                                size,
+                            })) as Rc<RefCell<dyn Node>>)
+                    }
+                }
+            }
+        }
+        let total_size = root.borrow().get_size().unwrap();
+        let unused_space = FILESYSTEM_SIZE - total_size;
+        let mut sizes = vec![];
+        root.borrow().find_all_sizes(&mut sizes);
+        let mut dir_sizes = vec![];
+        sizes.iter().for_each(|size| match size {
+            Sizes::DirSize(s) => dir_sizes.push(*s),
+            _ => (),
+        });
+        sizes
+            .iter()
+            .map(|size| size.unwrap())
+            .filter(|size| unused_space + size >= NEEDED_SPACE)
+            .min()
+            .unwrap()
     }
 }
 
