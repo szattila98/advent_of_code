@@ -5,6 +5,7 @@ use ndarray::{s, Array2, ArrayBase};
 
 use super::AdventTask;
 
+// TODO basic vec instead of ndarray for performance
 pub struct TreeHouseLookup;
 
 type NumType = usize;
@@ -22,42 +23,45 @@ impl AdventTask for TreeHouseLookup {
 
     fn solve_first_part(&self, input: &[Option<&'static str>]) -> Self::Solution {
         let forest = parse_forest(input);
-        let mut visible_trees = HashSet::new();
+        let mut visible_trees = 0;
         for ((row, col), tree) in forest.indexed_iter() {
             if row == 0 || row == forest.nrows() - 1 || col == 0 || col == forest.ncols() - 1 {
-                visible_trees.insert((row, col, *tree));
+                visible_trees += 1;
+                continue;
             }
+            let row_of_tree = forest.row(row);
             // left
-            if dbg!(forest.slice(s![0..row, 0..col]))
-                .iter()
-                .all(|num| num < tree)
-            {
-                visible_trees.insert((row, col, *tree));
+            if row_of_tree.slice(s![0..col]).iter().all(|num| num < tree) {
+                visible_trees += 1;
                 continue;
             }
             // right
-            // for i in col + 1..forest.ncols() {
-            //     if forest.get((row, i)).unwrap() < tree {
-            //         visible_trees.insert((row, col, *tree));
-            //         continue;
-            //     }
-            // }
+            if row_of_tree
+                .slice(s![col + 1..forest.ncols()])
+                .iter()
+                .all(|num| num < tree)
+            {
+                visible_trees += 1;
+                continue;
+            }
+
+            let col_of_tree = forest.column(col);
             // top
-            // for i in 0..row {
-            //     if forest.get((i, col)).unwrap() < tree {
-            //         visible_trees.insert((row, col, *tree));
-            //         continue;
-            //     }
-            // }
+            if col_of_tree.slice(s![0..row]).iter().all(|num| num < tree) {
+                visible_trees += 1;
+                continue;
+            }
             // down
-            // for i in row + 1..forest.nrows() {
-            //     if forest.get((i, col)).unwrap() < tree {
-            //         visible_trees.insert((row, col, *tree));
-            //         continue;
-            //     }
-            // }
+            if col_of_tree
+                .slice(s![row + 1..forest.nrows()])
+                .iter()
+                .all(|num| num < tree)
+            {
+                visible_trees += 1;
+                continue;
+            }
         }
-        visible_trees.len() // - 4
+        visible_trees
     }
 
     fn solve_second_part(&self, input: &[Option<&'static str>]) -> Self::Solution {
@@ -69,9 +73,9 @@ fn parse_forest(
     input: &[Option<&'static str>],
 ) -> ArrayBase<ndarray::OwnedRepr<NumType>, ndarray::Dim<[usize; 2]>> {
     let mut forest = vec![];
-    for (y, line) in input.iter().flatten().enumerate() {
+    for line in input.iter().flatten() {
         let mut patch = vec![];
-        for (x, height) in line.chars().enumerate() {
+        for height in line.chars() {
             patch.push(height.to_digit(10).unwrap() as NumType)
         }
         forest.push(patch);
