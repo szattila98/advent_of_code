@@ -1,5 +1,3 @@
-use std::collections::HashSet;
-
 use macros::include_str_arr;
 use ndarray::{s, Array2, ArrayBase};
 
@@ -38,7 +36,7 @@ impl AdventTask for TreeHouseLookup {
             }
             // right
             if row_of_tree
-                .slice(s![col + 1..forest.ncols()])
+                .slice(s![col + 1..])
                 .iter()
                 .all(|num| num < tree)
             {
@@ -52,7 +50,7 @@ impl AdventTask for TreeHouseLookup {
             }
             // down
             if col_of_tree
-                .slice(s![row + 1..forest.nrows()])
+                .slice(s![row + 1..])
                 .iter()
                 .all(|num| num < tree)
             {
@@ -70,36 +68,40 @@ impl AdventTask for TreeHouseLookup {
             let (mut left, mut right, mut top, mut bottom) = (0, 0, 0, 0);
             let row_of_tree = forest.row(row);
             let col_of_tree = forest.column(col);
-            // left
-            for other in row_of_tree.slice(s![0..col]) {
-                if other <= tree {
+            for other in row_of_tree.slice(s![0..col]).iter().rev() {
+                if other < tree {
                     left += 1;
+                } else if other >= tree {
+                    left += 1;
+                    break;
                 }
             }
-            // right
-            if row_of_tree
-                .slice(s![col + 1..forest.ncols()])
-                .iter()
-                .all(|num| num < tree)
-            {
-                scenic_scores += 1;
-                continue;
+            for other in row_of_tree.slice(s![col + 1..]) {
+                if other < tree {
+                    right += 1;
+                } else if other >= tree {
+                    right += 1;
+                    break;
+                }
             }
-            // top
-            if col_of_tree.slice(s![0..row]).iter().all(|num| num < tree) {
-                scenic_scores += 1;
-                continue;
+            for other in col_of_tree.slice(s![0..row]).iter().rev() {
+                if other < tree {
+                    top += 1;
+                } else if other >= tree {
+                    top += 1;
+                    break;
+                }
             }
-            // down
-            if col_of_tree
-                .slice(s![row + 1..forest.nrows()])
-                .iter()
-                .all(|num| num < tree)
-            {
-                scenic_scores += 1;
-                continue;
+            for other in col_of_tree.slice(s![row + 1..]) {
+                if other < tree {
+                    bottom += 1;
+                } else if other >= tree {
+                    bottom += 1;
+                    break;
+                }
             }
-            scenic_scores.push(left * right * top * bottom)
+            let score = left * right * top * bottom;
+            scenic_scores.push(score)
         }
         *scenic_scores.iter().max().unwrap()
     }

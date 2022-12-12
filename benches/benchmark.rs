@@ -42,7 +42,7 @@ fn criterion_benchmark(c: &mut Criterion) {
     });
     let task = TreeHouseLookup;
     c.bench_function(task.get_name(), |b| {
-        b.iter(|| assert_eq!(task.solve(), (1669, 0)))
+        b.iter(|| assert_eq!(task.solve(), (1669, 331344)))
     });
 }
 
