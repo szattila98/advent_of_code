@@ -30,6 +30,7 @@ impl AdventTask for TreeHouseLookup {
                 continue;
             }
             let row_of_tree = forest.row(row);
+            let col_of_tree = forest.column(col);
             // left
             if row_of_tree.slice(s![0..col]).iter().all(|num| num < tree) {
                 visible_trees += 1;
@@ -44,8 +45,6 @@ impl AdventTask for TreeHouseLookup {
                 visible_trees += 1;
                 continue;
             }
-
-            let col_of_tree = forest.column(col);
             // top
             if col_of_tree.slice(s![0..row]).iter().all(|num| num < tree) {
                 visible_trees += 1;
@@ -65,7 +64,44 @@ impl AdventTask for TreeHouseLookup {
     }
 
     fn solve_second_part(&self, input: &[Option<&'static str>]) -> Self::Solution {
-        0
+        let forest = parse_forest(input);
+        let mut scenic_scores = vec![];
+        for ((row, col), tree) in forest.indexed_iter() {
+            let (mut left, mut right, mut top, mut bottom) = (0, 0, 0, 0);
+            let row_of_tree = forest.row(row);
+            let col_of_tree = forest.column(col);
+            // left
+            for other in row_of_tree.slice(s![0..col]) {
+                if other <= tree {
+                    left += 1;
+                }
+            }
+            // right
+            if row_of_tree
+                .slice(s![col + 1..forest.ncols()])
+                .iter()
+                .all(|num| num < tree)
+            {
+                scenic_scores += 1;
+                continue;
+            }
+            // top
+            if col_of_tree.slice(s![0..row]).iter().all(|num| num < tree) {
+                scenic_scores += 1;
+                continue;
+            }
+            // down
+            if col_of_tree
+                .slice(s![row + 1..forest.nrows()])
+                .iter()
+                .all(|num| num < tree)
+            {
+                scenic_scores += 1;
+                continue;
+            }
+            scenic_scores.push(left * right * top * bottom)
+        }
+        *scenic_scores.iter().max().unwrap()
     }
 }
 
