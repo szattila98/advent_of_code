@@ -1,7 +1,8 @@
 use advent_of_code_2022::advent_task::{
     camp_cleaning::CampCleaning, device_cleanup::DeviceCleanup, elven_calories::ElvenCalories,
     elven_tournament::ElvenTournament, rucksack_troubles::RucksackTroubles,
-    supply_stacks::SupplyStacks, tuning_trouble::TuningTrouble, AdventTask,
+    supply_stacks::SupplyStacks, treehouse_lookup::TreeHouseLookup, tuning_trouble::TuningTrouble,
+    AdventTask,
 };
 use criterion::{criterion_group, criterion_main, Criterion};
 
@@ -38,6 +39,10 @@ fn criterion_benchmark(c: &mut Criterion) {
     let task = DeviceCleanup;
     c.bench_function(task.get_name(), |b| {
         b.iter(|| assert_eq!(task.solve(), (1428881, 10475598)))
+    });
+    let task = TreeHouseLookup;
+    c.bench_function(task.get_name(), |b| {
+        b.iter(|| assert_eq!(task.solve(), (829, 0)))
     });
 }
 
